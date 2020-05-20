@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SignupActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:src="@drawable/logo"/>
+    <RelativeLayout
+        android:elevation="@dimen/_10sdp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/courier_prime_regular"
+        android:textColor="@color/rhino"
+        android:hint="Name"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:textColorHint="@color/kimberly"
+        android:drawablePadding="@dimen/_5sdp"
+        android:maxLines="1"
+        android:maxLength="40"
+        android:drawableStart="@drawable/ic_person_outline_black_24dp"
+        android:inputType="text"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/courier_prime_regular"
+        android:textColor="@color/rhino"
+        android:hint="Email Id"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:textColorHint="@color/kimberly"
+        android:drawablePadding="@dimen/_5sdp"
+        android:maxLines="1"
+        android:layout_below="@id/edtName"
+        android:maxLength="40"
+        android:drawableStart="@drawable/ic_person_outline_black_24dp"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/courier_prime_regular"
+        android:textColor="@color/rhino"
+        android:hint="Password"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:textColorHint="@color/kimberly"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+        android:inputType="textPassword"
+        android:layout_below="@id/edtEmail"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+
+
+    <EditText
+        android:id="@+id/edtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/courier_prime_regular"
+        android:textColor="@color/rhino"
+        android:hint="Mobile Number"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:textColorHint="@color/kimberly"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_phone_black_24dp"
+        android:inputType="number"
+        android:layout_below="@id/edtPassword"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+
+    <Button
+        android:id="@+id/btn_signp"
+        android:elevation="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/brown"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:text="Sign UP"
+        android:layout_below="@id/edtPhone"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/kimberly"
+        android:layout_marginBottom="@dimen/_20sdp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loader"
+        android:visibility="gone"
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</RelativeLayout>
+</layout>

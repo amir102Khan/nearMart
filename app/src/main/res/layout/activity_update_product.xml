@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.UpdateProductActivity">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/loader"
+        android:visibility="gone"
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/imagedummybag"
+        android:layout_height="@dimen/_200sdp"/>
+
+
+            <EditText
+                android:id="@+id/edProductName"
+                android:hint="Product Name"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_below="@id/productImage"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+
+            <EditText
+                android:id="@+id/edPrice"
+                android:hint="Price"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:inputType="number"
+                android:layout_below="@id/edProductName"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/edMinQty"
+                android:hint="Minimum quantity"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_below="@id/edPrice"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+
+            <EditText
+                android:id="@+id/edUnit"
+                android:hint="Unit"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:inputType="text"
+                android:maxLength="6"
+                android:layout_below="@id/edMinQty"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvMainCtg"
+                android:text="Main category"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:layout_below="@id/edUnit"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content"/>
+           <Spinner
+               android:id="@+id/spnCategory"
+               android:padding="@dimen/_5sdp"
+               android:layout_below="@id/tvMainCtg"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_10sdp"/>
+
+
+
+            <TextView
+                android:id="@+id/tvSubCtg"
+                android:text="Sub category"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:layout_below="@id/spnCategory"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content"/>
+            <Spinner
+                android:id="@+id/spnSubCategory"
+                android:padding="@dimen/_5sdp"
+
+                android:layout_below="@id/tvSubCtg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"/>
+
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:text="Submit Product"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/kimberly"
+                android:layout_below="@id/spnSubCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
+</layout>

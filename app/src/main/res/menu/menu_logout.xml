@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/item_add_banner"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Add banner"
+        />
+    <item android:id="@+id/item_pending_orders"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Pending Orders"
+        />
+    <item android:id="@+id/item_completed_orders"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Completed Orders"
+        />
+    <item android:id="@+id/item_edit_orders"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Edit Order status"
+        />
+    <item android:id="@+id/item_logout"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Logout"
+        />
+</menu>
