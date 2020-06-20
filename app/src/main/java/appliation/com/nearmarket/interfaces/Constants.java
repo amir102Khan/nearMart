@@ -84,4 +84,7 @@ public interface Constants {
     int ON_THE_WAY = 2;
     int REJECTED = 3;
     int DELIVERED = 4;
+
+    String ONLINE_PAYMENT = "Payed online";
+    String COD = "Cash on delivery";
 }

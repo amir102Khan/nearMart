@@ -18,13 +18,23 @@ public class PlaceOrderModel implements Serializable {
     private String orderId;
     private String delevryTimeSlot;
 
+    private String paymentType;
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
     public PlaceOrderModel(){
 
     }
 
     public PlaceOrderModel(String userName,String userPhone,String userAddress,String totalBill,
                            String amountToPay,String deliveryCharge,String orderTime,
-                           List<CartDatabase> orders,int orderStatus,String orderId,String delevryTimeSlot){
+                           List<CartDatabase> orders,int orderStatus,String orderId,String delevryTimeSlot,String paymentType){
         this.userName = userName;
         this.userPhone = userPhone;
         this.userAddress = userAddress;
@@ -36,6 +46,7 @@ public class PlaceOrderModel implements Serializable {
         this.orderStatus = orderStatus;
         this.orderId = orderId;
         this.delevryTimeSlot = delevryTimeSlot;
+        this.paymentType = paymentType;
     }
 
     public String getDelevryTimeSlot() {

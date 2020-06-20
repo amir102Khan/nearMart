@@ -11,7 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-            vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -24,6 +24,11 @@ android {
         enabled = true
     }
 }
+
+repositories {
+    mavenCentral()
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -54,4 +59,6 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.5.0'
     implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
+
+    implementation 'com.razorpay:checkout:1.5.16'
 }

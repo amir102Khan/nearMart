@@ -59,7 +59,7 @@ public class OrderDetails extends BaseActivity {
 
             binding.tvTotalAmount.setText(placeOrderModel.getAmountToPay());
 
-            binding.tvCashOnDelivery.setText("Cash on delivery : " + placeOrderModel.getAmountToPay());
+            binding.tvCashOnDelivery.setText(placeOrderModel.getPaymentType() + " " + placeOrderModel.getAmountToPay());
 
             binding.tvOrderID.setText("Order ID:  " + placeOrderModel.getOrderId());
         }

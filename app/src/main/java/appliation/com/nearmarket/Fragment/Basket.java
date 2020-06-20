@@ -1,5 +1,6 @@
 package appliation.com.nearmarket.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.os.AsyncTask;
@@ -18,12 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,9 +52,11 @@ import appliation.com.nearmarket.database.CartDatabase;
 import appliation.com.nearmarket.database.DatabaseClient;
 import appliation.com.nearmarket.databinding.FragmentBasketBinding;
 import appliation.com.nearmarket.interfaces.OnAdapterItemClickWithType;
+import appliation.com.nearmarket.interfaces.RazorPayCallbacks;
 
 
-public class Basket extends BaseFragment implements OnAdapterItemClickWithType, View.OnClickListener {
+public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
+        View.OnClickListener, PaymentResultListener, RazorPayCallbacks {
 
     public Basket() {
         // Required empty public constructor
@@ -62,6 +70,8 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
     private DatabaseReference databaseReference;
     private DatabaseReference orderDatabase;
     private int areaSelectedPosition;
+    private String customerEmail;
+    private int amountToBePayed;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +85,10 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_basket,null,false);
+
+        if (getActivity() instanceof Dashboard){
+            ((Dashboard) getActivity()).setRazorPayCallbacks(this);
+        }
         return binding.getRoot();
     }
 
@@ -87,6 +101,11 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
         setListener();
         setVisibilities();
         selectSPinner();
+
+
+
+
+        Checkout.preload(mContext);
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(USER).child(sp.getString(USER_ID));
@@ -289,6 +308,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
             public void run() {
 
                 startActivity(new Intent(mContext, MyOrders.class));
+                mContext.finishAffinity();
             }
         }, 1000);
     }
@@ -307,6 +327,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
         totalBill = amount + deliveryCharge;
         binding.tvDeliveryCharge.setText(RUPEES + " " + deliveryCharge);
         binding.tvTotalAmount.setText(RUPEES + " " + totalBill);
+        amountToBePayed = totalBill;
     }
 
     private void getUserData(){
@@ -326,6 +347,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
     private void setData(SignUpUserModel userModel){
         binding.edName.setText(userModel.getUsername());
         binding.edPhone.setText(sp.getString(USER_ID));
+        customerEmail = userModel.getEmail();
     }
 
     private void selectSPinner(){
@@ -356,15 +378,24 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
         }
         else {
             if (checkInternetConnection()){
-                start();
-                placeOrder();
+                int paymentType = binding.paymentTypeRadio.getCheckedRadioButtonId();
+                if (paymentType == binding.rdPayOnline.getId()){
+                    startPayment();
+                }
+                else if (paymentType == binding.rdCod.getId()){
+                    start();
+                    placeOrder(COD);
+                }
+                else {
+                    showToast("Please select payment type");
+                }
             }
             else {
                 showToast(getString(R.string.internet_not_there));
             }
         }
     }
-    private void placeOrder(){
+    private void placeOrder(String paymentType){
         final String key = orderDatabase.push().getKey();
         String name = binding.edName.getText().toString();
 
@@ -393,7 +424,8 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
                 cart,
                 PENDING,
                 key,
-                deliveryTimeSlot);
+                deliveryTimeSlot,
+                paymentType);
 
         orderDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -492,5 +524,65 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType, 
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //Setting the ArrayAdapter data on the Spinner
         binding.spnDeliveryTimeSLot.setAdapter(aa);
+    }
+
+    private void startPayment(){
+
+        String name = binding.edName.getText().toString();
+        DateFormat dateFormat = new SimpleDateFormat(DATE3);
+        final String orderDate = dateFormat.format(Calendar.getInstance().getTime());
+
+        String phone = binding.edPhone.getText().toString();
+
+
+       /*
+          You need to pass current activity in order to let Razorpay create CheckoutActivity
+         */
+        final Activity activity = getActivity();
+
+        final Checkout co = new Checkout();
+
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "Near Mart");
+            options.put("description", "Payment of "+ name +" order on"+ orderDate);
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("currency", "INR");
+            options.put("amount", String.valueOf(amountToBePayed)+"00");
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", customerEmail);
+            preFill.put("contact", phone);
+
+            options.put("prefill", preFill);
+
+            co.open(activity, options);
+        }
+        catch (Exception e) {
+            showToast("Error in payment: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onPaymentSuccess(String s) {
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
+    }
+
+    @Override
+    public void onSuccess(String s) {
+        start();
+        placeOrder(ONLINE_PAYMENT);
+    }
+
+    @Override
+    public void onError(int i, String s) {
+        showToast(s);
+
     }
 }

@@ -255,8 +255,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <Button
+            <RadioGroup
                 android:layout_below="@id/spnDeliveryTimeSLot"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/paymentTypeRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/rdPayOnline"
+                    android:text="Pay now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/rdCod"
+                    android:text="Cash on delivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+            <Button
+                android:layout_below="@id/paymentTypeRadio"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:id="@+id/btnDwnld"
                 android:visibility="visible"

@@ -20,6 +20,7 @@ import android.widget.Switch;
 import com.flarebit.flarebarlib.Flaretab;
 import com.flarebit.flarebarlib.TabEventObject;
 import com.google.android.material.navigation.NavigationView;
+import com.razorpay.PaymentResultListener;
 
 import java.util.ArrayList;
 
@@ -30,12 +31,14 @@ import appliation.com.nearmarket.Fragment.Profile;
 import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.core.BaseActivity;
 import appliation.com.nearmarket.databinding.ActivityDashboardBinding;
+import appliation.com.nearmarket.interfaces.RazorPayCallbacks;
 
-public class Dashboard extends BaseActivity implements View.OnClickListener {
+public class Dashboard extends BaseActivity implements View.OnClickListener, PaymentResultListener {
 
 
     private ActivityDashboardBinding binding;
     private ActionBarDrawerToggle toggle;
+    private   RazorPayCallbacks razorPayCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,10 @@ public class Dashboard extends BaseActivity implements View.OnClickListener {
         addIcon();
         setSelectedTabListener();
         implementListener();
+    }
+
+    public  void setRazorPayCallbacks(RazorPayCallbacks razorPayCallbacks){
+    this.razorPayCallbacks = razorPayCallbacks;
     }
 
     private void getData(){
@@ -183,4 +190,13 @@ public class Dashboard extends BaseActivity implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onPaymentSuccess(String s) {
+        razorPayCallbacks.onSuccess(s);
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        razorPayCallbacks.onError(i,s);
+    }
 }
