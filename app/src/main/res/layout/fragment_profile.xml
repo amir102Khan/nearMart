@@ -19,7 +19,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:src="@drawable/logo"
+            android:src="@drawable/ic_dummy_user"
             android:layout_gravity="center_horizontal"
             android:id="@+id/profileImage_profile"
             app:civ_border_width="1dp"
@@ -88,6 +88,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
                 android:maxLength="90"
+                android:focusable="false"
                 android:fontFamily="@font/courier_prime_regular"/>
             <Button
                 android:layout_width="@dimen/_180sdp"
@@ -104,5 +105,19 @@
 </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/loader"
+        android:visibility="gone"
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </RelativeLayout>
 </layout>

@@ -9,6 +9,16 @@ public class SignUpUserModel implements Serializable {
 
     public String password;
 
+    private String userImage;
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -23,6 +33,13 @@ public class SignUpUserModel implements Serializable {
     public SignUpUserModel(String userName, String email, String password){
         this.username = userName;
         this.email = email;
+        this.password = password;
+    }
+
+    public SignUpUserModel(String userName, String email, String password,String userImage){
+        this.username = userName;
+        this.email = email;
+        this.userImage = userImage;
         this.password = password;
     }
 
