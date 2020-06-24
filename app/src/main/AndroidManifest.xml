@@ -19,9 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaymentActivity">
-
-        </activity>
+        <activity android:name=".activities.DashboardAdmin"></activity>
+        <activity android:name=".PaymentActivity"></activity>
         <activity android:name=".PhoneVerification" />
         <activity android:name=".activities.OrderDetails" />
         <activity android:name=".activities.MyOrders" />
@@ -53,13 +52,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-
-        <!-- Add your API key here -->
+        <activity android:name=".MainActivity" /> <!-- Add your API key here -->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_jYxAy9vSdmYnsg"
-            />
+            android:value="rzp_test_jYxAy9vSdmYnsg" />
     </application>
 
 </manifest>
