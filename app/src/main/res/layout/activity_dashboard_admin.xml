@@ -33,7 +33,7 @@
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/nvView"
                 android:layout_gravity="start"
-                app:menu="@menu/admin_menu"
+                app:menu="@menu/menu_logout"
                 app:headerLayout="@layout/header_layout"
                 android:background="@color/white"
                 android:layout_width="match_parent"

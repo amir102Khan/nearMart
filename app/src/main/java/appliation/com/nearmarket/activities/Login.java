@@ -112,7 +112,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
                         sp.setBoolean(ISLOGIN,true);
                         if (email.equals(ADMIN_PHONE)){
                             sp.setBoolean(ISADMIN,true);
-                         startActivity(new Intent(mContext,UpdateProductActivity.class));
+                         startActivity(new Intent(mContext,DashboardAdmin.class));
                         }
                         else {
                             sp.setString(USER_ID,email);
