@@ -21,15 +21,15 @@ public class Splash extends BaseActivity {
             public void run() {
                 if (sp.getBoolean(ISLOGIN)){
 
-                    /*if (sp.getBoolean(ISADMIN)) {
+                    if (sp.getBoolean(ISADMIN)) {
 
                         startActivity(new Intent(mContext, DashboardAdmin.class));
                     }
                     else {
                         startActivity(new Intent(mContext, Dashboard.class));
-                    }*/
+                    }
 
-                    startActivity(new Intent(mContext, DashboardAdmin.class));
+                    //startActivity(new Intent(mContext, DashboardAdmin.class));
 
 
                 }

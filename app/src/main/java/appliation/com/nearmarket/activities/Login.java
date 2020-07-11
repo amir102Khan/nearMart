@@ -1,10 +1,18 @@
 package appliation.com.nearmarket.activities;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,6 +54,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
         implementListener();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(USER);
+        decorateText();
         /*  bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.getRoot());*/
         /* bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.clBottomSheetParent);*/
         /* hideBottomSheet();*/
@@ -61,11 +70,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
         if (v == binding.btnLogin){
             validation();
         }
-        else if (v == binding.tvSignUp){
-            startActivity(new Intent(this, SignupActivity.class));
-//            openBottomSheet();
-           // openDaialog();
-        }
+
        /* else if (v == binding.bottomSheet.btnConsumer){
             sp.setString(Constant.USER_TYPE,Constant.CONSUMER);
             startActivity(new Intent(this, SignupActivity.class));
@@ -100,6 +105,34 @@ public class Login extends BaseActivity implements View.OnClickListener {
             }
         }
     }
+
+    private void decorateText() {
+        SpannableString ss = new SpannableString(getString(R.string.don_t_have_an_account_sign_up));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                //  openBottomSheet();
+                // openDaialog();
+                startActivity(new Intent(mContext, SignupActivity.class));
+
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        };
+
+        ss.setSpan(clickableSpan, 23, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.cream)), 23,
+                ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        binding.tvSignUp.setText(ss);
+        binding.tvSignUp.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.tvSignUp.setHighlightColor(Color.TRANSPARENT);
+    }
+
 
     private void login(){
         binding.loader.setVisibility(View.VISIBLE);

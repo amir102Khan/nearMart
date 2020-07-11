@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 <RelativeLayout
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.Login"
-    android:background="@color/white">
+    >
 
   <ImageView
       android:id="@+id/logo"
@@ -54,9 +55,9 @@
         android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Phone number"
+        android:textSize="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:textColorHint="@color/kimberly"
@@ -71,9 +72,9 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Password"
+        android:textSize="@dimen/_15sdp"
         android:maxLength="20"
         android:maxLines="1"
         android:layout_marginStart="@dimen/_15sdp"
@@ -88,31 +89,30 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/brown"
+        android:background="@drawable/background_cream_button_rectangle"
         android:layout_above="@id/tv_sign_up"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:text="Login"
         android:textSize="@dimen/_15sdp"
         android:elevation="@dimen/_2sdp"
-        android:textColor="@color/kimberly"
+        android:textColor="@color/white"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
     <TextView
         android:id="@+id/tv_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/kimberly"
-        android:textSize="@dimen/_15sdp"
-        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/_80sdp"
-        android:fontFamily="@font/courier_prime_regular"
-        android:text="Create a New Account"/>
+        android:text="@string/don_t_have_an_account_sign_up"/>
 
 
     <RelativeLayout
+        android:elevation="@dimen/_10sdp"
         android:id="@+id/loader"
         android:visibility="gone"
         android:background="@color/transparent"

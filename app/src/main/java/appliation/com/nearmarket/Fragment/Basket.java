@@ -212,6 +212,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
                 super.onPostExecute(aVoid);
                 prodcuts.remove(POSITION_TO_WORK);
                 adapter.notifyDataSetChanged();
+                setBill();
                 if (prodcuts.size() == 0){
                     setAddLAyoutVisibilties(View.GONE,View.VISIBLE);
                 }

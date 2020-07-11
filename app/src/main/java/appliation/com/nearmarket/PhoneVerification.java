@@ -242,6 +242,7 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
                     sp.setString(USER_ID, phoneNumber);
                     startActivity(new Intent(mContext, Dashboard.class));
                     finish();
+                    return;
                 }
 
                 hideLoader();

@@ -9,6 +9,15 @@
     android:background="@color/white">
 
     <ImageView
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+        android:id="@+id/imgBAck"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"/>
+
+    <ImageView
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_centerHorizontal="true"
@@ -23,7 +32,6 @@
         android:id="@+id/edtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Name"
         android:layout_marginStart="@dimen/_15sdp"
@@ -39,7 +47,6 @@
         android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Email Id"
         android:layout_marginStart="@dimen/_15sdp"
@@ -56,7 +63,6 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Password"
         android:maxLength="20"
@@ -75,7 +81,6 @@
         android:id="@+id/edtPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/courier_prime_regular"
         android:textColor="@color/rhino"
         android:hint="Mobile Number"
         android:maxLength="10"
@@ -94,14 +99,27 @@
         android:elevation="@dimen/_2sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/brown"
+        android:background="@drawable/background_cream_button_rectangle"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:text="Sign UP"
         android:layout_below="@id/edtPhone"
         android:textSize="@dimen/_15sdp"
-        android:textColor="@color/kimberly"
+        android:textColor="@color/white"
         android:layout_marginBottom="@dimen/_20sdp"/>
+
+
+        <TextView
+            android:id="@+id/tvAlreadyHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+            android:layout_below="@id/btn_signp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/already_have_an_account_sign_in"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
     </RelativeLayout>
 
     <RelativeLayout

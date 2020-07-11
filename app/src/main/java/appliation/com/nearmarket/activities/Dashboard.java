@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import appliation.com.nearmarket.Fragment.Home;
 import appliation.com.nearmarket.Fragment.Profile;
 import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.core.BaseActivity;
+import appliation.com.nearmarket.database.DatabaseClient;
 import appliation.com.nearmarket.databinding.ActivityDashboardBinding;
 import appliation.com.nearmarket.interfaces.RazorPayCallbacks;
 
@@ -47,10 +49,16 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
         binding = DataBindingUtil.setContentView(this,R.layout.activity_dashboard);
 
         setUpToggle();
-        getData();
+       // getData();
         addIcon();
         setSelectedTabListener();
         implementListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
     }
 
     public  void setRazorPayCallbacks(RazorPayCallbacks razorPayCallbacks){
@@ -118,9 +126,43 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
     }
 
     private void logout(){
+        emptyLocalData();
         sp.clearData();
         startActivity(new Intent(this,Login.class));
         finish();
+    }
+
+    private void emptyLocalData(){
+        class DeleteData extends AsyncTask<Void,Void,Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                DatabaseClient.getInstance(mContext)
+                        .getAppDatabase()
+                        .cartDao()
+                        .deleteAll();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                //  hideLoader();
+
+            }
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+
+                // showToast(String.valueOf(values.length));
+
+            }
+        }
+
+
+        DeleteData saveData = new DeleteData();
+        saveData.execute();
     }
 
     private void setUpToggle(){

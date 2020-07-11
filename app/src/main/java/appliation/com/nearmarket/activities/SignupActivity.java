@@ -1,10 +1,18 @@
 package appliation.com.nearmarket.activities;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,10 +50,12 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(USER);
         implementListener();
+        decorateText();
     }
 
     private void implementListener(){
         binding.btnSignp.setOnClickListener(this);
+        binding.imgBAck.setOnClickListener(this);
     }
     private void signup(){
 //        firebaseAuth.createUserWithEmailAndPassword(email,password)
@@ -103,8 +113,34 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         if (v == binding.btnSignp){
             validation();
         }
+        else if (v == binding.imgBAck){
+            onBackPressed();
+        }
     }
 
+    private void decorateText() {
+        SpannableString ss = new SpannableString(getString(R.string.already_have_an_account_sign_in));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                onBackPressed();
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        };
+
+        ss.setSpan(clickableSpan, 25, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.cream)), 25,
+                ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        binding.tvAlreadyHaveAccount.setText(ss);
+        binding.tvAlreadyHaveAccount.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.tvAlreadyHaveAccount.setHighlightColor(Color.TRANSPARENT);
+    }
     private void validation(){
         if (!Common.validateEditText(binding.edtName.getText().toString())){
             showToast("Name is empty");

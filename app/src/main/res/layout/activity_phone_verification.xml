@@ -23,7 +23,7 @@
         android:textSize="@dimen/_25sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_10sdp"
-        android:textColor="@color/brown"/>
+        android:textColor="@color/cream"/>
 
 
     <LinearLayout
@@ -128,7 +128,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:background="@color/brown"
+        android:background="@drawable/background_cream_button_rectangle"
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="20dp"

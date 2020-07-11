@@ -9,8 +9,8 @@ public interface Constants {
     String USER_TYPE = "";
     String USER_ID = "userId";
 
-    //String ADMIN_PHONE = "9450246245";
-    String ADMIN_PHONE = "9515620510";
+    String ADMIN_PHONE = "9450246245";
+    //String ADMIN_PHONE = "9515620510";
     // grocery list types
     String GROCERY_TYPE = "groceryType";
     String BRANDED_FOODS = "Branded Food";
