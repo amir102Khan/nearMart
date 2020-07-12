@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -130,11 +131,21 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
             case R.id.nav_my_order:
                 startActivity(new Intent(mContext,MyOrders.class));
                 break;
+            case R.id.nav_about_us:
+                aboutUs();
+                break;
+
         }
 
         binding.drawerLayout.closeDrawers();
     }
 
+
+    private void aboutUs(){
+        Uri uri = Uri.parse("https://www.instagram.com/nearmart/"); // missing 'http://' will cause crashed
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
     private void logout(){
         emptyLocalData();
         sp.clearData();

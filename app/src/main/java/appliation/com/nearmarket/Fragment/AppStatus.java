@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.core.BaseActivity;
@@ -28,6 +31,7 @@ public class AppStatus extends BaseFragment implements View.OnClickListener {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private String appStatus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,22 @@ public class AppStatus extends BaseFragment implements View.OnClickListener {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference(APP_STATUS);
         binding.btnUpdateStatus.setOnClickListener(this);
+        if (checkInternetConnection()) {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    appStatus = dataSnapshot.getValue(String.class);
+                    setAppStatus();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            showToast("Please check your internet connection");
+        }
     }
 
     @Override
@@ -64,6 +84,14 @@ public class AppStatus extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    private void setAppStatus(){
+        if (appStatus.equals(ACTIVE)){
+            binding.rdActive.setChecked(true);
+        }
+        else if (appStatus.equals(BLOCKED)){
+            binding.rdBlocked.setChecked(true);
+        }
+    }
     private void updateStatus(){
 
         int statusType = binding.statusTypeRadio.getCheckedRadioButtonId();
