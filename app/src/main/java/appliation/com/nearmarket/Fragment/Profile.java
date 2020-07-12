@@ -1,9 +1,11 @@
 package appliation.com.nearmarket.Fragment;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -24,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,6 +68,10 @@ public class Profile extends BaseFragment implements View.OnClickListener {
     private File profileImage;
     private StorageReference storageReference;
     private String userPsswd;
+    private String userImageUrl;
+    private String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private final int PERMISSION_CAMERA = 101;
+    private final int PERMISSION_GALLERY = 102;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,7 +128,8 @@ public class Profile extends BaseFragment implements View.OnClickListener {
         binding.edProfileEmail.setText(userModel.getEmail());
 
         userPsswd = userModel.getPassword();
-        if (userModel.getUsername() != null){
+        if (userModel.getUserImage() != null && !userModel.getUserImage().isEmpty()  && !userModel.getUserImage().equals("")){
+            userImageUrl = userModel.getUserImage();
             Picasso.with(mContext)
                     .load(userModel.getUserImage())
                     .error(R.drawable.ic_dummy_user)
@@ -134,14 +143,46 @@ public class Profile extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v == binding.btnUpdateProfile){
             if (checkInternetConnection()){
-                uploadImage();
+                if (profileImage != null){
+                    uploadImage();
+                }
+                else {
+                    if (userImageUrl != null && !userImageUrl.isEmpty() ){
+                        updateProfile(userImageUrl);
+                    }
+                    else {
+                        updateProfile("");
+                    }
+
+                }
+
             }
             else {
                 showToast(getString(R.string.internet_not_there));
             }
         }
         else if (v == binding.profileImageProfile){
-            dialogSelectImage();
+            if (!hasPermissions(mContext, PERMISSIONS)) {
+                requestPermissions(PERMISSIONS, PERMISSION_CAMERA);
+            } else {
+                // openCamera();
+                dialogSelectImage();
+            }
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED /*&& grantResults[2] == PackageManager.PERMISSION_GRANTED*/) {
+                //openCamera();
+                dialogSelectImage();
+            } else {
+                Toast.makeText(mContext, "Permissions Required to use camera", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -270,5 +311,16 @@ public class Profile extends BaseFragment implements View.OnClickListener {
                 profileImage = file;
             }
         });
+    }
+
+    public boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

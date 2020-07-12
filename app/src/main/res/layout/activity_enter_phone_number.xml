@@ -5,7 +5,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PhoneVerification">
+    tools:context=".activities.EnterPhoneNumber">
     <ImageView
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_10sdp"
@@ -19,8 +19,8 @@
         android:id="@+id/tvVerify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify OTP"
-        android:textSize="@dimen/_25sdp"
+        android:text="Enter Your Phone Number"
+        android:textSize="@dimen/_20sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/cream"/>
@@ -35,89 +35,20 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:hint="Phone number"
             android:gravity="center"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:background="@drawable/item_background"
-            android:id="@+id/edOtp1"
+            android:id="@+id/edPhone"
             android:textSize="@dimen/_20sdp"
             android:textColor="@color/black"
-            android:maxLength="1"
+            android:maxLength="10"
             android:inputType="number"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"/>
 
-
-        <EditText
-            android:gravity="center"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/black"
-            android:maxLength="1"
-            android:inputType="number"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/item_background"
-            android:id="@+id/edOtp2"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"/>
-
-
-        <EditText
-            android:gravity="center"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/black"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/item_background"
-            android:id="@+id/edOtp3"
-            android:layout_weight="1"
-            android:maxLength="1"
-            android:inputType="number"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"/>
-
-
-        <EditText
-            android:gravity="center"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/black"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/item_background"
-            android:id="@+id/edOtp4"
-            android:layout_weight="1"
-            android:maxLength="1"
-            android:inputType="number"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"/>
-
-
-        <EditText
-            android:gravity="center"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/black"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/item_background"
-            android:id="@+id/edOtp5"
-            android:layout_weight="1"
-            android:maxLength="1"
-            android:inputType="number"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"/>
-
-
-
-        <EditText
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:maxLength="1"
-            android:inputType="number"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/item_background"
-            android:id="@+id/edOtp6"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"/>
     </LinearLayout>
 
 
@@ -133,7 +64,7 @@
         android:textAlignment="center"
         android:textSize="20dp"
         android:layout_below="@id/layoutVerify"
-        android:hint="Verify"
+        android:hint="Request OTP"
         android:textColorHint="#fff"
         android:textColor="#fff"
         android:singleLine="true" />

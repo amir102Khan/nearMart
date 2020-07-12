@@ -63,12 +63,16 @@ public class Login extends BaseActivity implements View.OnClickListener {
     private void implementListener(){
         binding.btnLogin.setOnClickListener(this);
         binding.tvSignUp.setOnClickListener(this);
+        binding.tvForgotPassword.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == binding.btnLogin){
             validation();
+        }
+        else if (v == binding.tvForgotPassword){
+            startActivity(new Intent(mContext,EnterPhoneNumber.class));
         }
 
        /* else if (v == binding.bottomSheet.btnConsumer){

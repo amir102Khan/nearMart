@@ -49,7 +49,7 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
         binding = DataBindingUtil.setContentView(this,R.layout.activity_dashboard);
 
         setUpToggle();
-       // getData();
+        getData();
         addIcon();
         setSelectedTabListener();
         implementListener();
@@ -58,7 +58,7 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
     @Override
     protected void onResume() {
         super.onResume();
-        getData();
+        //getData();
     }
 
     public  void setRazorPayCallbacks(RazorPayCallbacks razorPayCallbacks){
@@ -98,6 +98,16 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
         Fragment fragment = getSupportFragmentManager().findFragmentById(binding.frame.getId());
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(binding.frame.getId());
+        if (fragment != null){
+            fragment.onRequestPermissionsResult(requestCode,permissions,grantResults);
         }
     }
 

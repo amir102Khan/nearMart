@@ -1,4 +1,4 @@
-package appliation.com.nearmarket;
+package appliation.com.nearmarket.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.concurrent.TimeUnit;
 
 import appliation.com.nearmarket.Model.SignUpUserModel;
+import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.activities.Dashboard;
 import appliation.com.nearmarket.core.BaseActivity;
 import appliation.com.nearmarket.databinding.ActivityPhoneVerificationBinding;
@@ -36,13 +37,14 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
 
 
     private ActivityPhoneVerificationBinding binding;
-    private int[] otp = new int[]{-1, -1, -1, -1,-1,-1};
+    private int[] otp = new int[]{-1, -1, -1, -1, -1, -1};
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private String phoneNumber;
     private FirebaseAuth firebaseAuth;
     private SignUpUserModel userModel;
     private String verificationId;
+    private boolean isFromSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,11 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
     }
 
     private void getData() {
+        isFromSignUp = getIntent().getBooleanExtra(IS_FROM_SIGN_UP, true);
         phoneNumber = getIntent().getStringExtra("mobileNumber");
-        userModel = (SignUpUserModel) getIntent().getSerializableExtra("userData");
+        if (isFromSignUp) {
+            userModel = (SignUpUserModel) getIntent().getSerializableExtra("userData");
+        }
         sendVerificationCode(phoneNumber);
     }
 
@@ -108,9 +113,9 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
             binding.edOtp4.requestFocus();
         } else if (s.toString().hashCode() == binding.edOtp4.getText().toString().hashCode()) {
             binding.edOtp5.requestFocus();
-        }else if (s.toString().hashCode() == binding.edOtp5.getText().toString().hashCode()){
+        } else if (s.toString().hashCode() == binding.edOtp5.getText().toString().hashCode()) {
             binding.edOtp6.requestFocus();
-        }else if (s.toString().hashCode() == binding.edOtp6.getText().toString().hashCode()){
+        } else if (s.toString().hashCode() == binding.edOtp6.getText().toString().hashCode()) {
             hideKeyboard();
         }
 
@@ -126,7 +131,7 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
             otp[5] = Integer.parseInt(binding.edOtp6.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
-            otp = new int[]{-1, -1, -1, -1,-1,-1};
+            otp = new int[]{-1, -1, -1, -1, -1, -1};
         }
 
         String otpString = "";
@@ -173,7 +178,11 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
 
-                            signup();
+                            if (isFromSignUp) {
+                                signup();
+                            } else {
+                                setNewPassword();
+                            }
                         } else {
 
                             //verification unsuccessful.. display an error message
@@ -256,11 +265,16 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void showLoader(){
+    private void setNewPassword() {
+        startActivity(new Intent(mContext, EnterNewPassword.class)
+                .putExtra("mobileNumber", phoneNumber));
+    }
+
+    private void showLoader() {
         binding.loader.setVisibility(View.VISIBLE);
     }
 
-    private void hideLoader(){
+    private void hideLoader() {
         binding.loader.setVisibility(View.GONE);
     }
 }

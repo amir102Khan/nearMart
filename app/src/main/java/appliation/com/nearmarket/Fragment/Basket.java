@@ -374,6 +374,15 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         else if (binding.edPhone.getText().toString().length() != 10){
             showToast("Please enter a valid phone number");
         }
+        else if (!Common.validateEditText(binding.edAdd1.getText().toString())){
+            showToast("Enter your house number");
+        }
+        else if (!Common.validateEditText(binding.edAdd2.getText().toString())){
+            showToast("Enter your nearby location");
+        }
+        else if (!Common.validateEditText(binding.edAdd3.getText().toString())){
+            showToast("Enter your city");
+        }
         else if (areaSelectedPosition == 0){
             showToast("Please select your area");
         }
@@ -381,6 +390,10 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             if (checkInternetConnection()){
                 int paymentType = binding.paymentTypeRadio.getCheckedRadioButtonId();
                 if (paymentType == binding.rdPayOnline.getId()){
+                    String deliveryTimeSlot = (String) binding.spnDeliveryTimeSLot.getSelectedItem();
+                    if (deliveryTimeSlot.equals(NON_DELIVERY_TIME)){
+                        return;
+                    }
                     startPayment();
                 }
                 else if (paymentType == binding.rdCod.getId()){
@@ -413,6 +426,9 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         final String orderDate = dateFormat.format(Calendar.getInstance().getTime());
 
         String deliveryTimeSlot = (String) binding.spnDeliveryTimeSLot.getSelectedItem();
+        if (deliveryTimeSlot.equals(NON_DELIVERY_TIME)){
+            return;
+        }
         CartData cartData = new CartData(getActivity().getApplicationContext());
         List<CartDatabase> cart = cartData.getCart();
         final PlaceOrderModel placeOrderModel = new PlaceOrderModel(name,
@@ -491,22 +507,28 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             String firstTime = tie;
 
             String secondTime = "8 PM";
-
+            String thirdTime = "8 AM";
             String format = "hh a";
 
             SimpleDateFormat sdf = new SimpleDateFormat(format);
 
             Date dateObj1 = sdf.parse( firstTime);
             Date dateObj2 = sdf.parse(secondTime);
-
-            long dif = dateObj1.getTime();
-            while (dif < dateObj2.getTime()) {
-                Date slot = new Date(dif);
-                Date endTime = new Date(dif  + 2L * 60L * 60L * 1000L);
-                String time = simpleDateFormat.format(slot);
-                String timee = simpleDateFormat.format(endTime);
-                times.add(time + " - "+ timee);
-                dif += 3600000 *2;
+            Date dateobj3 = sdf.parse(thirdTime);
+            if (!dateObj1.after(dateObj2) && !dateObj1.before(dateobj3)){
+                long dif = dateObj1.getTime();
+                while (dif < dateObj2.getTime()) {
+                    Date slot = new Date(dif);
+                    Date endTime = new Date(dif  + 2L * 60L * 60L * 1000L);
+                    String time = simpleDateFormat.format(slot);
+                    String timee = simpleDateFormat.format(endTime);
+                    times.add(time + " - "+ timee);
+                    dif += 3600000 *2;
+                }
+            }
+            else {
+                int jj = 90;
+                times.add(NON_DELIVERY_TIME);
             }
 
             setSpinnerADapter(times);

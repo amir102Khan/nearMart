@@ -53,7 +53,6 @@ public class AddBanner extends BaseActivity implements View.OnClickListener {
     private String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private final int PERMISSION_CAMERA = 101;
     private File file;
-
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;

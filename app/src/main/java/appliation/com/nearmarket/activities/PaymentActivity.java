@@ -1,4 +1,4 @@
-package appliation.com.nearmarket;
+package appliation.com.nearmarket.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,6 +13,7 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.core.BaseActivity;
 import appliation.com.nearmarket.databinding.ActivityPaymentBinding;
 
@@ -23,7 +24,7 @@ public class PaymentActivity extends BaseActivity implements PaymentResultListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_payment);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_payment);
         checkout = new Checkout();
         Checkout.preload(this);
         binding.btnPay.setOnClickListener(new View.OnClickListener() {

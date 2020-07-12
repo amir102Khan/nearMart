@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.AppStatus">
+
+    <TextView
+        android:id="@+id/tvAppStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set app status"
+        android:textSize="@dimen/_25sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/black"/>
+
+
+    <RadioGroup
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_below="@id/tvAppStatus"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/statusTypeRadio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/rdActive"
+            android:text="Active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rdBlocked"
+            android:text="Blocked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+
+    <Button
+        android:layout_below="@id/statusTypeRadio"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/profile_btn"
+        android:text="Update"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_update_status"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_gravity="center_horizontal"/>
+
+</RelativeLayout>
+</layout>

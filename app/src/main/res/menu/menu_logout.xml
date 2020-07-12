@@ -26,4 +26,7 @@
         android:icon="@drawable/ic_shopping_basket_black_24dp"
         android:title="Logout"
         />
+    <item android:id="@+id/item_set_app_status"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Set app status"/>
 </menu>

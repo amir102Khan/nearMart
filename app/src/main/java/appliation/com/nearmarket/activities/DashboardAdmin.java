@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+import appliation.com.nearmarket.Fragment.AppStatus;
 import appliation.com.nearmarket.Fragment.Basket;
 import appliation.com.nearmarket.Fragment.Home;
 import appliation.com.nearmarket.Fragment.Profile;
@@ -79,6 +80,9 @@ public class DashboardAdmin extends BaseActivity {
             case R.id.item_upload_product:
                 switchToFragment(new UploadProduct());
                 break;
+
+            case R.id.item_set_app_status:
+                switchToFragment(new AppStatus());
         }
 
         binding.drawerLayout.closeDrawers();

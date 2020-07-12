@@ -19,9 +19,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.DashboardAdmin"></activity>
-        <activity android:name=".PaymentActivity"></activity>
-        <activity android:name=".PhoneVerification" />
+        <activity android:name=".InActiveAppStatus"></activity>
+        <activity android:name=".activities.EnterNewPassword" />
+        <activity android:name=".activities.EnterPhoneNumber" />
+        <activity android:name=".activities.DashboardAdmin" />
+        <activity android:name=".activities.PaymentActivity" />
+        <activity android:name=".activities.PhoneVerification" />
         <activity android:name=".activities.OrderDetails" />
         <activity android:name=".activities.MyOrders" />
         <activity android:name=".activities.AddBanner" />

@@ -74,6 +74,9 @@ public interface Constants {
     String BANNER = "banner";
     String ORDER_PLACED = "orders";
 
+    String APP_STATUS = "App status";
+    String ACTIVE = "Active";
+    String BLOCKED = "Blocked";
 
 
     String DATE = "yyyyMMdd_HHmmss";
@@ -88,4 +91,8 @@ public interface Constants {
 
     String ONLINE_PAYMENT = "Payed online";
     String COD = "Cash on delivery";
+
+    String NON_DELIVERY_TIME = "Delivery is only allowed between 10 AM to 8 PM";
+
+    String IS_FROM_SIGN_UP = "Is from sign up";
 }
