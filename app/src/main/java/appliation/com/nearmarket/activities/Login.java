@@ -147,12 +147,12 @@ public class Login extends BaseActivity implements View.OnClickListener {
                     SignUpUserModel userModel = dataSnapshot.child(email).getValue(SignUpUserModel.class);
                     if (userModel.getPassword().equals(password)){
                         sp.setBoolean(ISLOGIN,true);
+                        sp.setString(USER_ID,email);
                         if (email.equals(ADMIN_PHONE)){
                             sp.setBoolean(ISADMIN,true);
                          startActivity(new Intent(mContext,DashboardAdmin.class));
                         }
                         else {
-                            sp.setString(USER_ID,email);
                             sp.setBoolean(ISADMIN,false);
                             startActivity(new Intent(mContext, Dashboard.class));
                         }

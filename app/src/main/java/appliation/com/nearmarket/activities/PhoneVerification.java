@@ -247,9 +247,15 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
                 } else {
                     databaseReference.child(phoneNumber).setValue(userModel);
                     sp.setBoolean(ISLOGIN, true);
-                    sp.setBoolean(ISADMIN, false);
-                    sp.setString(USER_ID, phoneNumber);
-                    startActivity(new Intent(mContext, Dashboard.class));
+                    sp.setString(USER_ID,phoneNumber);
+                    if (phoneNumber.equals(ADMIN_PHONE)){
+                        sp.setBoolean(ISADMIN,true);
+                        startActivity(new Intent(mContext,DashboardAdmin.class));
+                    }
+                    else {
+                        sp.setBoolean(ISADMIN,false);
+                        startActivity(new Intent(mContext, Dashboard.class));
+                    }
                     finish();
                     return;
                 }

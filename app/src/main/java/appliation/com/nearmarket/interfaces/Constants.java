@@ -9,8 +9,8 @@ public interface Constants {
     String USER_TYPE = "";
     String USER_ID = "userId";
 
-    String ADMIN_PHONE = "9450246245";
-    //String ADMIN_PHONE = "9515620510";
+    String ADMIN_PHONE = "7007230145";
+    //String ADMIN_PHONE = "9450246245";
     // grocery list types
     String GROCERY_TYPE = "groceryType";
     String BRANDED_FOODS = "Branded Food";
@@ -30,6 +30,8 @@ public interface Constants {
     String CUSTOMIZED_CHOCLATE = "Customized Chocolates";
 
     // additional services items
+
+    String ADDITIONAL_TYPE = "Additional Type";
     String PHOTOGRAPHY = "Photography";
     String EVENT_MANAGEMENT = "Event Management";
 

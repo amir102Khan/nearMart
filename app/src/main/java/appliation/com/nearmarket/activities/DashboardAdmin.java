@@ -26,6 +26,7 @@ import appliation.com.nearmarket.Fragment.AppStatus;
 import appliation.com.nearmarket.Fragment.Basket;
 import appliation.com.nearmarket.Fragment.Home;
 import appliation.com.nearmarket.Fragment.Profile;
+import appliation.com.nearmarket.Fragment.UploadAdditional;
 import appliation.com.nearmarket.Fragment.UploadBanner;
 import appliation.com.nearmarket.Fragment.UploadProduct;
 import appliation.com.nearmarket.R;
@@ -83,6 +84,10 @@ public class DashboardAdmin extends BaseActivity {
 
             case R.id.item_set_app_status:
                 switchToFragment(new AppStatus());
+                break;
+            case R.id.item_additional_services:
+                switchToFragment(new UploadAdditional());
+                break;
         }
 
         binding.drawerLayout.closeDrawers();

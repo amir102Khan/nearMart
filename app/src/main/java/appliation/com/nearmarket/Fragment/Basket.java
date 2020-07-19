@@ -1,6 +1,7 @@
 package appliation.com.nearmarket.Fragment;
 
 import android.app.Activity;
+import android.app.TaskInfo;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -43,6 +45,7 @@ import appliation.com.nearmarket.Model.PlaceOrderModel;
 import appliation.com.nearmarket.Model.SignUpUserModel;
 import appliation.com.nearmarket.R;
 import appliation.com.nearmarket.Util.Common;
+import appliation.com.nearmarket.Util.Dialogs;
 import appliation.com.nearmarket.activities.Dashboard;
 import appliation.com.nearmarket.activities.MyOrders;
 import appliation.com.nearmarket.adapter.BucketListAdapter;
@@ -72,6 +75,8 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
     private int areaSelectedPosition;
     private String customerEmail;
     private int amountToBePayed;
+    private boolean IS_NEXT_DAY_ORDER = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +106,6 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         setListener();
         setVisibilities();
         selectSPinner();
-
-
 
 
         Checkout.preload(mContext);
@@ -291,7 +294,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-               // startCheckAnimation();
+               startCheckAnimation();
             }
         }, 5000);
     }
@@ -345,6 +348,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             }
         });
     }
+
     private void setData(SignUpUserModel userModel){
         binding.edName.setText(userModel.getUsername());
         binding.edPhone.setText(sp.getString(USER_ID));
@@ -364,6 +368,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             }
         });
     }
+
     private void validation(){
         if (!Common.validateEditText(binding.edName.getText().toString())){
             showToast("Name is empty");
@@ -389,26 +394,56 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         else {
             if (checkInternetConnection()){
                 int paymentType = binding.paymentTypeRadio.getCheckedRadioButtonId();
-                if (paymentType == binding.rdPayOnline.getId()){
-                    String deliveryTimeSlot = (String) binding.spnDeliveryTimeSLot.getSelectedItem();
-                    if (deliveryTimeSlot.equals(NON_DELIVERY_TIME)){
-                        return;
-                    }
-                    startPayment();
-                }
-                else if (paymentType == binding.rdCod.getId()){
-                    start();
-                    placeOrder(COD);
+                if (IS_NEXT_DAY_ORDER){
+                    showDialog(paymentType);
                 }
                 else {
-                    showToast("Please select payment type");
+                    generatePayment(paymentType);
                 }
+
             }
             else {
                 showToast(getString(R.string.internet_not_there));
             }
         }
     }
+
+    private void showDialog(final int paymentTyp){
+      final   AlertDialog alert = Dialogs.alertDialogWithTwoButtons(
+                "This order is pre booking order for tomorrow. New orders are shut down after 8 PM",
+                "Continue",
+                "Cancel",
+                mContext
+        );
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                generatePayment(paymentTyp);
+            }
+        });
+        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+    }
+
+    private void generatePayment(int paymentType){
+        if (paymentType == binding.rdPayOnline.getId()){
+            startPayment();
+        }
+        else if (paymentType == binding.rdCod.getId()){
+            placeOrder(COD);
+            start();
+        }
+        else {
+            showToast("Please select payment type");
+        }
+    }
+
+
     private void placeOrder(String paymentType){
         final String key = orderDatabase.push().getKey();
         String name = binding.edName.getText().toString();
@@ -525,10 +560,18 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
                     times.add(time + " - "+ timee);
                     dif += 3600000 *2;
                 }
+
+                IS_NEXT_DAY_ORDER = false;
             }
             else {
-                int jj = 90;
-                times.add(NON_DELIVERY_TIME);
+                times.add("10 AM");
+                times.add("12 AM");
+                times.add("2 PM");
+                times.add("4 PM");
+                times.add("6 PM");
+                times.add("8 PM");
+
+                IS_NEXT_DAY_ORDER = true;
             }
 
             setSpinnerADapter(times);
@@ -537,15 +580,14 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
 
             String e = ex.getMessage();
         }
-
-        int j= 98;
     }
 
     private void setSpinnerADapter(ArrayList<String> time){
         //Creating the ArrayAdapter instance having the bank name list
         ArrayAdapter aa = new ArrayAdapter(mContext,android.R.layout.simple_spinner_item,time);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//Setting the ArrayAdapter data on the Spinner
+
+        //Setting the ArrayAdapter data on the Spinner
         binding.spnDeliveryTimeSLot.setAdapter(aa);
     }
 
@@ -606,6 +648,5 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
     @Override
     public void onError(int i, String s) {
         showToast(s);
-
     }
 }

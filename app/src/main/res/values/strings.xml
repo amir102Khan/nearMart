@@ -13,7 +13,7 @@
 
     <string name="rajor_pay_test_key">rzp_test_jYxAy9vSdmYnsg</string>
     <string name="invalidOtp">Please enter a valid OTP</string>
-
+    <string name="okay">Okay</string>
     <string-array name="spinner_location_item">
         <item>Area</item>
         <item>Harishankarpur</item>
