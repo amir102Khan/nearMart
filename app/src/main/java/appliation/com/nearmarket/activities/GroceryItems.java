@@ -205,7 +205,7 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
         final int count = prodcuts.get(POSITION_TO_WORK).getCount();
         final int quantity = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getMinimumQty());
         final String quantityOrder = String.valueOf(quantity) + prodcuts.get(POSITION_TO_WORK).getUnit();
-        final int itemTotalPrice = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
+        final int itemTotalPrice = quantity * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
 
         addProductInCartToLocal(quantityOrder,count,itemTotalPrice);
         /*if (carts.size()> 0){

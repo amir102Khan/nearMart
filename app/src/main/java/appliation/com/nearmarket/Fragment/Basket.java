@@ -193,7 +193,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         final int count = prodcuts.get(POSITION_TO_WORK).getCount();
         final int quantity = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getQty());
         final String quantityOrder = String.valueOf(quantity) + prodcuts.get(POSITION_TO_WORK).getUnit();
-        final int itemTotalPrice = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
+        final int itemTotalPrice = quantity * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
         prodcuts.get(POSITION_TO_WORK).setItemTotalPrice(String.valueOf(itemTotalPrice));
         adapter.notifyDataSetChanged();
         addProductInCartToLocal(quantityOrder,count,itemTotalPrice);

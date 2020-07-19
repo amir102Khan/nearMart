@@ -118,7 +118,6 @@ public class UploadBanner extends BaseFragment implements View.OnClickListener {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                File file = imageFiles.get(0);
                 file = imageFiles.get(0);
                 binding.bannerImage.setImageURI(Uri.fromFile(file));
             }
@@ -222,6 +221,8 @@ public class UploadBanner extends BaseFragment implements View.OnClickListener {
                             //submitProduct(uri.toString());
                             String key = databaseReference.push().getKey();
                             databaseReference.child(key).setValue(uri.toString());
+                            showToast("uploaded");
+                            binding.bannerImage.setImageDrawable(mContext.getDrawable(R.drawable.imagedummybag));
                         }
                     });
 
@@ -243,6 +244,9 @@ public class UploadBanner extends BaseFragment implements View.OnClickListener {
                     progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                 }
             });
+        }
+        else {
+            showToast("please select file");
         }
     }
 

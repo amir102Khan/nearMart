@@ -60,7 +60,7 @@
         <activity android:name=".MainActivity" /> <!-- Add your API key here -->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_jYxAy9vSdmYnsg" />
+            android:value="@string/rajor_pay_test_key" />
     </application>
 
 </manifest>
