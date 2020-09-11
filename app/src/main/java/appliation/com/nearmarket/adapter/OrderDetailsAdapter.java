@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -38,11 +39,17 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<OrderDetailsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHOlder holder, int position) {
-        Picasso.with(context)
-                .load(orders.get(position).getProductImage())
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
-                .into(holder.imageView);
+        try {
+
+            Picasso.with(context)
+                    .load(orders.get(position).getProductImage())
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.imageView);
+        }
+        catch (Exception e){
+            holder.imageView.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
 
         holder.tvNAme.setText(orders.get(position).getName());
 

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -71,11 +72,17 @@ public class BucketListAdapter extends RecyclerView.Adapter<BucketListAdapter.My
 
         holder.tvTotalPrice.setText("Total Price : " + Constants.RUPEES + " " + products.get(position).getItemTotalPrice());
 
-        Picasso.with(context)
-                .load(products.get(position).getProductImage())
-                .error(R.drawable.logo)
-                .placeholder(R.drawable.logo)
-                .into(holder.imageProdcut);
+        try {
+            Picasso.with(context)
+                    .load(products.get(position).getProductImage())
+                    .error(R.drawable.logo)
+                    .placeholder(R.drawable.logo)
+                    .into(holder.imageProdcut);
+        }
+        catch (Exception e){
+            holder.imageProdcut.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
+
 
     }
 

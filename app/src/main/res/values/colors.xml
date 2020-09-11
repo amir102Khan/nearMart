@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="rhino">#282E58</color>
     <color name="bostonBlue">#329FAB</color>
-    <color name="pampus">#ECE8E3</color>
+    <color name="pampus">#FAE9D0</color>
     <color name="blossom">#DBACAF</color>
     <color name="battleshipGrey">#899680</color>
     <color name="logan">#A2A0C8</color>
@@ -24,4 +24,8 @@
     <color name="gold">#FFD700</color>
     <color name="silver">#C0C0C0</color>
     <color name="black_dark">#212121</color>
+    <color name="whiteGrey">#E6E6E6</color>
+
+    <color name="buttonGreen">#4CC959</color>
+    <color name="green">#34AE41</color>
 </resources>

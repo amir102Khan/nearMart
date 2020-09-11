@@ -2,9 +2,13 @@ package appliation.com.nearmarket.core;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -34,12 +38,33 @@ public class BaseFragment extends Fragment implements Constants {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeVariable();
+        /*Making notification bar transparent*/
+
     }
 
     private void initializeVariable(){
         mContext = getActivity();
         layoutManager = new LinearLayoutManager(getContext());
         sp = new SharedPref(mContext);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mContext.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        else {
+            int hh = 90;
+        }
+
+        changeStatusBarColor();
+
+    }
+
+    private void changeStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = mContext.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 
     public void showToast(String message) {

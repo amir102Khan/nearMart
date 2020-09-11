@@ -19,7 +19,7 @@ public class EnterPhoneNumber extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_phone_number);
+       // setContentView(R.layout.activity_enter_phone_number);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_enter_phone_number);
         binding.imgBAck.setOnClickListener(this);
         binding.btnVerify.setOnClickListener(this);

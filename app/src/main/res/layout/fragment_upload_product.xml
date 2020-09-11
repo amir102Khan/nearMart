@@ -14,6 +14,10 @@
         android:layout_height="match_parent">
 
         <ProgressBar
+
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/green"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -84,7 +88,7 @@
                 android:id="@+id/edUnit"
                 android:hint="Unit"
                 android:layout_width="match_parent"
-                android:maxLines="1"
+                android:maxLines="4"
                 android:inputType="text"
                 android:maxLength="6"
                 android:layout_below="@id/edMinQty"
@@ -94,12 +98,43 @@
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"/>
 
+            <Switch
+                android:id="@+id/switchWorkStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:gravity="left|center"
+                android:text="Is more than 1kg/packet/box/litre"
+                android:textColor="@color/black"
+                android:layout_below="@id/edUnit"
+                android:textSize="@dimen/_14sdp"
+                android:theme="@style/SCBSwitch" />
+
+
+            <EditText
+
+                android:id="@+id/edDesc"
+                android:hint="Desc"
+                android:layout_width="match_parent"
+                android:maxLines="3"
+                android:inputType="text"
+                android:maxLength="300"
+                android:layout_below="@id/switchWorkStatus"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:gravity="top"
+                android:layout_height="@dimen/_100sdp"/>
+
             <TextView
                 android:id="@+id/tvMainCtg"
                 android:text="Main category"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"
-                android:layout_below="@id/edUnit"
+                android:layout_below="@id/edDesc"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_height="wrap_content"/>

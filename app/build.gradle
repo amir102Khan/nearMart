@@ -11,8 +11,8 @@ android {
         applicationId "appliation.com.nearmarket"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -61,6 +61,10 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     implementation 'com.squareup.picasso:picasso:2.5.0'
+
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
     implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
 
     implementation 'com.razorpay:checkout:1.5.16'

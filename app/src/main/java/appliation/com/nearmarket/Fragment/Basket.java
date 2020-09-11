@@ -151,6 +151,13 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
         prodcuts.addAll(cart);
         adapter.notifyDataSetChanged();
         setBill();
+
+        for (int i = 0 ; i < prodcuts.size() ; i ++){
+            if (prodcuts.get(i).getCount() == 0){
+                POSITION_TO_WORK = i;
+                removeDataFromLocal();
+            }
+        }
     }
 
     private void setEmptyAdapter(){
@@ -190,13 +197,25 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
     }
 
     private void updateCart(){
-        final int count = prodcuts.get(POSITION_TO_WORK).getCount();
-        final int quantity = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getQty());
-        final String quantityOrder = String.valueOf(quantity) + prodcuts.get(POSITION_TO_WORK).getUnit();
-        final int itemTotalPrice = quantity * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
-        prodcuts.get(POSITION_TO_WORK).setItemTotalPrice(String.valueOf(itemTotalPrice));
-        adapter.notifyDataSetChanged();
-        addProductInCartToLocal(quantityOrder,count,itemTotalPrice);
+        try {
+
+            final int count = prodcuts.get(POSITION_TO_WORK).getCount();
+            final int quantity = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getQty());
+            final String quantityOrder = String.valueOf(quantity) + prodcuts.get(POSITION_TO_WORK).getUnit();
+            final int itemTotalPrice;
+            if (prodcuts.get(POSITION_TO_WORK).isQuantityMoreThan1Unit()){
+                itemTotalPrice = quantity * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
+            }
+            else {
+                itemTotalPrice = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
+            }
+            prodcuts.get(POSITION_TO_WORK).setItemTotalPrice(String.valueOf(itemTotalPrice));
+            adapter.notifyDataSetChanged();
+            addProductInCartToLocal(quantityOrder,count,itemTotalPrice);
+        }
+        catch (Exception ex){
+            showToast("There is some error, try later");
+        }
     }
 
     private void removeDataFromLocal(){
@@ -245,6 +264,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
                 cartDatabase.setProductImage(prodcuts.get(POSITION_TO_WORK).getProductImage());
                 cartDatabase.setQty(prodcuts.get(POSITION_TO_WORK).getQty());
                 cartDatabase.setUnit(prodcuts.get(POSITION_TO_WORK).getUnit());
+                cartDatabase.setQuantityMoreThan1Unit(prodcuts.get(POSITION_TO_WORK).isQuantityMoreThan1Unit());
                 // adding in database
 
                 DatabaseClient.getInstance(getActivity().getApplicationContext())
@@ -311,8 +331,14 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             @Override
             public void run() {
 
-                startActivity(new Intent(mContext, MyOrders.class));
-                mContext.finishAffinity();
+                try {
+                    startActivity(new Intent(mContext, MyOrders.class));
+                    mContext.finish();
+                }
+                catch (Exception e){
+                    e.getMessage();
+                }
+
             }
         }, 1000);
     }
@@ -325,7 +351,7 @@ public class Basket extends BaseFragment implements OnAdapterItemClickWithType,
             amount = amount + Integer.parseInt(prodcuts.get(i).getItemTotalPrice());
         }
         binding.tvAmount.setText(RUPEES + " " + amount);
-        if (amount < 299){
+        if (amount < 499){
             deliveryCharge = 30;
         }
         totalBill = amount + deliveryCharge;

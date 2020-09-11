@@ -32,6 +32,7 @@ import appliation.com.nearmarket.Fragment.Categories;
 import appliation.com.nearmarket.Fragment.Home;
 import appliation.com.nearmarket.Fragment.Profile;
 import appliation.com.nearmarket.R;
+import appliation.com.nearmarket.Util.Common;
 import appliation.com.nearmarket.core.BaseActivity;
 import appliation.com.nearmarket.database.DatabaseClient;
 import appliation.com.nearmarket.databinding.ActivityDashboardBinding;
@@ -191,6 +192,8 @@ public class Dashboard extends BaseActivity implements View.OnClickListener, Pay
                 binding.drawerLayout,binding.toolbar.mToolbar,R.string.drawer_open,R.string.drawer_close);
 
         binding.drawerLayout.addDrawerListener(toggle);
+
+        Common.setToolbarWithBackAndTitle(mContext,"Near Mart",false,0);
 
         binding.toolbar.mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

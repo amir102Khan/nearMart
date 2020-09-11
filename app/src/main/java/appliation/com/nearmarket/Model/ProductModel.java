@@ -11,7 +11,17 @@ public class ProductModel {
     private String minimumQty = "";
     private String subCategory = "";
     private String unit = "";
+    private String desc = "";
     private int count = 0;
+    private boolean isMoreThan1Unit = false;
+
+    public boolean isMoreThan1Unit() {
+        return isMoreThan1Unit;
+    }
+
+    public void setMoreThan1Unit(boolean moreThan1Unit) {
+        isMoreThan1Unit = moreThan1Unit;
+    }
 
     public int getCount() {
         return count;
@@ -60,7 +70,9 @@ public class ProductModel {
                         String mainCategory,
                         String subCategory,
                         String unit,
-                        String minimumQty){
+                        String minimumQty,
+                        String desc,
+                        boolean isMoreThan1Unit){
 
         this.Image = productImage;
         this.Name = productName;
@@ -70,10 +82,21 @@ public class ProductModel {
         this.subCategory = subCategory;
         this.unit = unit;
         this.minimumQty = minimumQty;
+        this.desc = desc;
+        this.isMoreThan1Unit = isMoreThan1Unit;
     }
 
     public ProductModel(){
 
+    }
+
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getImage() {

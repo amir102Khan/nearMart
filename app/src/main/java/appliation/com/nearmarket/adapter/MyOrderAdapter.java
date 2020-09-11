@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -41,11 +42,18 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Picasso.with(context)
-                .load(orders.get(position).getOrders().get(0).getProductImage())
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
-                .into(holder.imageView);
+        try {
+
+            Picasso.with(context)
+                    .load(orders.get(position).getOrders().get(0).getProductImage())
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.imageView);
+
+        }
+        catch (Exception e){
+            holder.imageView.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
 
         holder.tvOrderId.setText(orders.get(position).getOrderId());
 

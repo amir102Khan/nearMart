@@ -26,7 +26,7 @@ public class AdditionalListItems extends BaseActivity implements OnAdapterItemCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_additional_list_items);
-        Common.setToolbarWithBackAndTitle(mContext,"Additional",true,R.drawable.ic_chevron_left_black_24dp);
+        Common.setToolbarWithBackAndTitle(mContext,"Additional Service",true,R.drawable.ic_chevron_left_black_24dp);
         setEmptyAdapter();
         setData();
     }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -37,11 +38,16 @@ public class AdditionalAdapter extends RecyclerView.Adapter<AdditionalAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Picasso.with(context)
-                .load(banners.get(position))
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
-                .into(holder.imgBanner);
+        try {
+            Picasso.with(context)
+                    .load(banners.get(position))
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.imgBanner);
+        }
+        catch (Exception e){
+            holder.imgBanner.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
     }
 
     @Override

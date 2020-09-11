@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:background="@color/colorAccent">
+    android:background="@color/green">
 
         <TextView
             android:id="@+id/title_tv"

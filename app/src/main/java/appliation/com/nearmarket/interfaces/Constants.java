@@ -17,6 +17,11 @@ public interface Constants {
     String PERSONAL_CARE = "Personal Care";
     String HEALTH = "Health";
     String HOME_CARE = "Home Care";
+    String BEARDO_PRODUCTS = "Beardo Products";
+    String KIRANA = "Kirana";
+    String BABY_CARE = "Baby Care";
+    String Biscuits_AND_SNACKS = "Biscuits & Snacks";
+    String COVID_19_ESSENTIALS = "Covid 19 Essentials";
 
     //vegetable list types
     String VEGY_TYPE = "vegyType";
@@ -55,6 +60,7 @@ public interface Constants {
     String VEGETABLES = "Veggies & Fruits";
     String GIFTS = "Gifts";
     String ADDITIONAL_SERVICE = "Additional Service";
+    String Health_Care = "Health & Hygiene";
 
     // intents
     String MOVE_TO = "moveTo";

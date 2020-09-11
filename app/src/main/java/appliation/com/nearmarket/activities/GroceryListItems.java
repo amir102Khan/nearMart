@@ -42,6 +42,12 @@ public class GroceryListItems extends BaseActivity implements OnAdapterItemClick
         list.add(PERSONAL_CARE);
         list.add(HEALTH);
         list.add(HOME_CARE);
+        list.add(BEARDO_PRODUCTS);
+
+        list.add(KIRANA);
+        list.add(BABY_CARE);
+        list.add(Biscuits_AND_SNACKS);
+        list.add(COVID_19_ESSENTIALS);
         grocerListAdapter.notifyDataSetChanged();
     }
 

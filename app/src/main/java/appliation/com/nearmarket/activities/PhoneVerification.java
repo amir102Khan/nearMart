@@ -1,14 +1,13 @@
 package appliation.com.nearmarket.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 import appliation.com.nearmarket.Model.SignUpUserModel;
 import appliation.com.nearmarket.R;
-import appliation.com.nearmarket.activities.Dashboard;
 import appliation.com.nearmarket.core.BaseActivity;
 import appliation.com.nearmarket.databinding.ActivityPhoneVerificationBinding;
 
@@ -45,6 +43,31 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
     private SignUpUserModel userModel;
     private String verificationId;
     private boolean isFromSignUp;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            //Getting the code sent by SMS
+            String code = phoneAuthCredential.getSmsCode();
+
+            //sometime the code is not detected automatically
+            //in this case the code will be null
+            //so user has to manually enter the code
+
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+
+            showToast(e.getMessage());
+        }
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
+            verificationId = s;
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +183,17 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
         }
     }
 
-
     private void verifyVerificationCode(String otp) {
         //creating the credential
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
+        if (verificationId != null) {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
+            //signing the user
+            signInWithPhoneAuthCredential(credential);
+        }
+        else {
+            showToast("Some error, Please try again");
+        }
 
-        //signing the user
-        signInWithPhoneAuthCredential(credential);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -210,32 +237,6 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
                 mCallbacks);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-            //Getting the code sent by SMS
-            String code = phoneAuthCredential.getSmsCode();
-
-            //sometime the code is not detected automatically
-            //in this case the code will be null
-            //so user has to manually enter the code
-
-        }
-
-        @Override
-        public void onVerificationFailed(FirebaseException e) {
-
-            showToast(e.getMessage());
-        }
-
-        @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
-
-        }
-    };
-
     private void signup() {
 
         showLoader();
@@ -247,13 +248,12 @@ public class PhoneVerification extends BaseActivity implements View.OnClickListe
                 } else {
                     databaseReference.child(phoneNumber).setValue(userModel);
                     sp.setBoolean(ISLOGIN, true);
-                    sp.setString(USER_ID,phoneNumber);
-                    if (phoneNumber.equals(ADMIN_PHONE)){
-                        sp.setBoolean(ISADMIN,true);
-                        startActivity(new Intent(mContext,DashboardAdmin.class));
-                    }
-                    else {
-                        sp.setBoolean(ISADMIN,false);
+                    sp.setString(USER_ID, phoneNumber);
+                    if (phoneNumber.equals(ADMIN_PHONE)) {
+                        sp.setBoolean(ISADMIN, true);
+                        startActivity(new Intent(mContext, DashboardAdmin.class));
+                    } else {
+                        sp.setBoolean(ISADMIN, false);
                         startActivity(new Intent(mContext, Dashboard.class));
                     }
                     finish();

@@ -30,6 +30,7 @@
 
 
             <com.flarebit.flarebarlib.FlareBar
+                android:backgroundTint="@color/pampus"
                 android:id="@+id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_alignParentBottom="true"
@@ -56,6 +57,10 @@
         android:layout_height="match_parent">
 
         <ProgressBar
+
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/green"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -1,14 +1,19 @@
 package appliation.com.nearmarket.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,13 +41,43 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder,final int position) {
 
-        Picasso.with(context)
-                .load(banners.get(position))
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
-                .into(holder.imgBanner);
+        try {
+            Picasso.with(context)
+                    .load(banners.get(position))
+                    .placeholder(R.drawable.logo)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .error(R.drawable.logo)
+                    .into(holder.imgBanner, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(context)
+                                    .load(banners.get(position))
+                                    .error(R.drawable.logo)
+                                    .into(holder.imgBanner, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            Log.v("Picasso","Could not fetch image");
+                                        }
+                                    });
+                        }
+                    });
+        }
+        catch (Exception e){
+           holder.imgBanner.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
+
     }
 
     @Override

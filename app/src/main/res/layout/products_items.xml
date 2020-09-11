@@ -24,12 +24,24 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_toEndOf="@id/productImage"
-        android:ellipsize="end"
-        android:maxLength="25"
-        android:maxLines="1"
         android:text="Product Name"
         android:textColor="@color/black"
         android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        android:id="@+id/productDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_toEndOf="@id/productImage"
+        android:ellipsize="end"
+        android:layout_below="@id/productName"
+        android:maxLines="3"
+        android:text="Product Desc"
+        android:textColor="@color/rhino"
+        android:textSize="@dimen/_12sdp" />
+
 
     <TextView
         android:id="@+id/tvProductPrice"
@@ -39,7 +51,7 @@
         android:maxLines="1"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:layout_below="@id/productName"
+        android:layout_below="@id/productDesc"
         android:layout_toEndOf="@id/productImage"
         android:textColor="@color/black"
         android:textSize="@dimen/_12sdp"/>

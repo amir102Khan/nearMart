@@ -324,7 +324,7 @@ public class UpdateProductActivity extends BaseActivity implements View.OnClickL
                 selectedMainCategory,
                 selectedSubCategory,
                 unit,
-                minQuantity);
+                minQuantity,"",false);
 
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

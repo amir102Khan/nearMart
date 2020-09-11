@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,12 +70,14 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
     private final int PERMISSION_GALLERY = 102;
     private String productImage = "";
     private String productName;
+    private String productDesc;
     private String productPrice;
     private String unit;
     private String minQuantity;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private File file;
+    private boolean isMoreThan1Unit;
 
     //firebase objects
     private StorageReference storageReference;
@@ -121,6 +124,11 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
                 categories.add(HEALTH);
                 categories.add(HOME_CARE);
                 categories.add(PERSONAL_CARE);
+                categories.add(BEARDO_PRODUCTS);
+                categories.add(KIRANA);
+                categories.add(BABY_CARE);
+                categories.add(Biscuits_AND_SNACKS);
+                categories.add(COVID_19_ESSENTIALS);
                 break;
             case VEGETABLES:
                 categories.add(FRESH_FRUITS);
@@ -139,8 +147,14 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
             default:
                 categories.add(BRANDED_FOODS);
                 categories.add(HEALTH);
+                categories.add(BEARDO_PRODUCTS);
                 categories.add(HOME_CARE);
                 categories.add(PERSONAL_CARE);
+
+                categories.add(KIRANA);
+                categories.add(BABY_CARE);
+                categories.add(Biscuits_AND_SNACKS);
+                categories.add(COVID_19_ESSENTIALS);
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, categories);
@@ -172,6 +186,13 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        binding.switchWorkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isMoreThan1Unit = b;
             }
         });
     }
@@ -331,7 +352,9 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
                 selectedMainCategory,
                 selectedSubCategory,
                 unit,
-                minQuantity);
+                minQuantity,
+                productDesc,
+                isMoreThan1Unit);
 
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -379,6 +402,8 @@ public class UploadProduct extends BaseFragment implements View.OnClickListener 
         productPrice = binding.edPrice.getText().toString();
         minQuantity = binding.edMinQty.getText().toString();
         unit = binding.edUnit.getText().toString();
+        productDesc = binding.edDesc.getText().toString();
+
         if (!Common.validateEditText(productName)) {
             showSnackBar(binding.getRoot(), "Name is empty");
         } else if (!Common.validateEditText(productPrice)) {

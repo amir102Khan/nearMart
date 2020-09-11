@@ -40,13 +40,14 @@ public class Splash extends BaseActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     appStatus = dataSnapshot.getValue(String.class);
-                    startTimer();
+                    start();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    int jj =9;
                 }
+
             });
         } else {
             showToast("Please check your internet connection");
@@ -56,36 +57,40 @@ public class Splash extends BaseActivity {
 
     }
 
+    private void start(){
+        if (sp.getBoolean(ISLOGIN)) {
+
+            if (sp.getBoolean(ISADMIN)) {
+
+                startActivity(new Intent(mContext, DashboardAdmin.class));
+            } else {
+                if (appStatus.equals(ACTIVE)) {
+                    startActivity(new Intent(mContext, Dashboard.class));
+                } else {
+                    startActivity(new Intent(mContext, InActiveAppStatus.class));
+                }
+            }
+
+
+        } else {
+            if (appStatus.equals(ACTIVE)) {
+                startActivity(new Intent(mContext, Login.class));
+            } else {
+                startActivity(new Intent(mContext, InActiveAppStatus.class));
+
+            }
+        }
+
+        finish();
+
+    }
+
     private void startTimer() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                if (sp.getBoolean(ISLOGIN)) {
-
-                    if (sp.getBoolean(ISADMIN)) {
-
-                        startActivity(new Intent(mContext, DashboardAdmin.class));
-                    } else {
-                        if (appStatus.equals(ACTIVE)) {
-                            startActivity(new Intent(mContext, Dashboard.class));
-                        } else {
-                            startActivity(new Intent(mContext, InActiveAppStatus.class));
-                        }
-                    }
-
-
-                } else {
-                    if (appStatus.equals(ACTIVE)) {
-                        startActivity(new Intent(mContext, Login.class));
-                    } else {
-                        startActivity(new Intent(mContext, InActiveAppStatus.class));
-
-                    }
-                }
-
-                finish();
-            }
+                            }
         }, TIMER);
     }
 }

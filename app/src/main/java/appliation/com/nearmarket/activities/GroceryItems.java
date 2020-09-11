@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,6 +44,7 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ArrayList<ProductModel> prodcuts = new ArrayList<>();
+    private ArrayList<ProductModel> prodcutsDuplicate = new ArrayList<>();
     private List<BucketModel> carts = new ArrayList<>();
     private GroceryListAdapter adapter ;
     private DatabaseReference bucketDatabase;
@@ -67,6 +70,33 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
             showToast(getString(R.string.internet_not_there));
         }
         binding.buttonAddToCart.setOnClickListener(this);
+
+        binding.edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                search(editable.toString());
+            }
+        });
+    }
+
+    private void search(String search){
+        prodcutsDuplicate.clear();
+        for (int i =0; i < prodcuts.size() ; i++){
+            if (prodcuts.get(i).getName().toUpperCase().contains(search.toUpperCase())){
+                prodcutsDuplicate.add(prodcuts.get(i));
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void data(){
@@ -74,9 +104,12 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                prodcuts.clear();
+                prodcutsDuplicate.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ProductModel model= dataSnapshot.getValue(ProductModel.class);
                     prodcuts.add(model);
+                    prodcutsDuplicate.add(model);
                 }
                 adapter.notifyDataSetChanged();
                 hideLoader();
@@ -100,7 +133,7 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
 
     private void setEmptyAdapter(){
         binding.rv.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new GroceryListAdapter(mContext,prodcuts,this);
+        adapter = new GroceryListAdapter(mContext,prodcutsDuplicate,this);
         binding.rv.setAdapter(adapter);
     }
 
@@ -108,24 +141,26 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
     public void onItemClick(int position, int type, String data) {
         POSITION_TO_WORK = position;
         if (type == ADD){
-            int count = prodcuts.get(position).getCount();
+            int count = prodcutsDuplicate.get(position).getCount();
             count = count + 1;
-            prodcuts.get(position).setCount(count);
+            prodcutsDuplicate.get(position).setCount(count);
             adapter.notifyDataSetChanged();
             //addProductToBucket();
             updateCart();
         }
         else if (type == SUB){
-            int count = prodcuts.get(position).getCount();
+            int count = prodcutsDuplicate.get(position).getCount();
             if (count > 0){
                 count = count - 1;
-                prodcuts.get(position).setCount(count);
+                prodcutsDuplicate.get(position).setCount(count);
                 adapter.notifyDataSetChanged();
                // addProductToBucket();
                 updateCart();
             }
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -202,12 +237,23 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
 
     private void updateCart(){
 
-        final int count = prodcuts.get(POSITION_TO_WORK).getCount();
-        final int quantity = count * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getMinimumQty());
-        final String quantityOrder = String.valueOf(quantity) + prodcuts.get(POSITION_TO_WORK).getUnit();
-        final int itemTotalPrice = quantity * Integer.valueOf(prodcuts.get(POSITION_TO_WORK).getPrice());
+        final int count = prodcutsDuplicate.get(POSITION_TO_WORK).getCount();
+        try {
+            final int quantity = count * Integer.parseInt(prodcutsDuplicate.get(POSITION_TO_WORK).getMinimumQty());
+            final String quantityOrder = String.valueOf(quantity) + prodcutsDuplicate.get(POSITION_TO_WORK).getUnit();
+            final int itemTotalPrice;
+            if (prodcutsDuplicate.get(POSITION_TO_WORK).isMoreThan1Unit()){
+                itemTotalPrice = quantity * Integer.parseInt(prodcutsDuplicate.get(POSITION_TO_WORK).getPrice());
+            }
+            else {
+                itemTotalPrice = count * Integer.parseInt(prodcutsDuplicate.get(POSITION_TO_WORK).getPrice());
+            }
+            addProductInCartToLocal(quantityOrder,count,itemTotalPrice);
+        }
+        catch (Exception ex){
+            showToast("Some error occured , please try later");
+        }
 
-        addProductInCartToLocal(quantityOrder,count,itemTotalPrice);
         /*if (carts.size()> 0){
             for (int i = 0; i < carts.size(); i ++){
                 if (carts.get(i).getProductKey().equals(prodcuts.get(POSITION_TO_WORK).getProductKey())){
@@ -253,15 +299,16 @@ public class GroceryItems extends BaseActivity implements OnAdapterItemClickWith
                 // creating database
 
                 CartDatabase cartDatabase = new CartDatabase();
-                cartDatabase.setProductKey(prodcuts.get(POSITION_TO_WORK).getProductKey());
+                cartDatabase.setProductKey(prodcutsDuplicate.get(POSITION_TO_WORK).getProductKey());
                 cartDatabase.setCount(count);
                 cartDatabase.setQuantity(quantityOrder);
                 cartDatabase.setItemTotalPrice(String.valueOf(itemTotalPrice));
-                cartDatabase.setPrice(prodcuts.get(POSITION_TO_WORK).getPrice());
-                cartDatabase.setName(prodcuts.get(POSITION_TO_WORK).getName());
-                cartDatabase.setProductImage(prodcuts.get(POSITION_TO_WORK).getImage());
-                cartDatabase.setQty(prodcuts.get(POSITION_TO_WORK).getMinimumQty());
-                cartDatabase.setUnit(prodcuts.get(POSITION_TO_WORK).getUnit());
+                cartDatabase.setPrice(prodcutsDuplicate.get(POSITION_TO_WORK).getPrice());
+                cartDatabase.setName(prodcutsDuplicate.get(POSITION_TO_WORK).getName());
+                cartDatabase.setProductImage(prodcutsDuplicate.get(POSITION_TO_WORK).getImage());
+                cartDatabase.setQty(prodcutsDuplicate.get(POSITION_TO_WORK).getMinimumQty());
+                cartDatabase.setUnit(prodcutsDuplicate.get(POSITION_TO_WORK).getUnit());
+                cartDatabase.setQuantityMoreThan1Unit(prodcutsDuplicate.get(POSITION_TO_WORK).isMoreThan1Unit());
                 // adding in database
 
                 DatabaseClient.getInstance(getApplicationContext())

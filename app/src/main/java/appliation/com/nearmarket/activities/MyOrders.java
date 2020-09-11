@@ -67,6 +67,7 @@ public class MyOrders extends BaseActivity implements OnAdapterItemClick {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                orders.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PlaceOrderModel model= snapshot.getValue(PlaceOrderModel.class);
                     orders.add(model);

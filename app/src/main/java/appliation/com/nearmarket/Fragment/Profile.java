@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -130,11 +131,17 @@ public class Profile extends BaseFragment implements View.OnClickListener {
         userPsswd = userModel.getPassword();
         if (userModel.getUserImage() != null && !userModel.getUserImage().isEmpty()  && !userModel.getUserImage().equals("")){
             userImageUrl = userModel.getUserImage();
-            Picasso.with(mContext)
-                    .load(userModel.getUserImage())
-                    .error(R.drawable.ic_dummy_user)
-                    .placeholder(R.drawable.ic_dummy_user)
-                    .into(binding.profileImageProfile);
+            try {
+
+                Picasso.with(mContext)
+                        .load(userModel.getUserImage())
+                        .error(R.drawable.ic_dummy_user)
+                        .placeholder(R.drawable.ic_dummy_user)
+                        .into(binding.profileImageProfile);
+            }
+            catch (Exception e){
+                binding.profileImageProfile.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.ic_dummy_user));
+            }
         }
     }
 

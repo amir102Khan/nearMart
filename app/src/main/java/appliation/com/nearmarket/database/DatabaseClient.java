@@ -19,7 +19,9 @@ public class DatabaseClient {
         //MyCart is the name of the database
         appDatabase = Room.databaseBuilder(mContext,
                 AppDatabase.class,
-                "MyCart").build();
+                "MyCart")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     public static synchronized DatabaseClient getInstance(Context context){

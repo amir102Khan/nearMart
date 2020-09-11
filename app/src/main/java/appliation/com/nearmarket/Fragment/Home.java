@@ -10,7 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import appliation.com.nearmarket.Model.ProductModel;
 import appliation.com.nearmarket.R;
@@ -30,6 +34,7 @@ import appliation.com.nearmarket.activities.GiftListItems;
 import appliation.com.nearmarket.activities.GroceryListItems;
 import appliation.com.nearmarket.activities.VegListItems;
 import appliation.com.nearmarket.adapter.BannerAdapter;
+import appliation.com.nearmarket.adapter.MyViewPagerAdapter;
 import appliation.com.nearmarket.core.BaseFragment;
 import appliation.com.nearmarket.databinding.FragmentHomeBinding;
 import appliation.com.nearmarket.interfaces.OnAdapterItemClick;
@@ -43,9 +48,12 @@ public class Home extends BaseFragment implements OnAdapterItemClick, View.OnCli
 
     private FragmentHomeBinding binding;
     private BannerAdapter bannerAdapter;
+    private MyViewPagerAdapter myViewPagerAdapter;
     private ArrayList<String> banners = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private Timer timer;
+    private int currentPage = 0;
 
 
     @Override
@@ -90,8 +98,10 @@ public class Home extends BaseFragment implements OnAdapterItemClick, View.OnCli
 
                         banners.add(dataSnapshot.getValue(String.class));
                     }
-                    bannerAdapter.notifyDataSetChanged();
+                   // bannerAdapter.notifyDataSetChanged();
+                    myViewPagerAdapter.notifyDataSetChanged();
                     hideLoader();
+                    setupAutoPager();
                 }
 
                 @Override
@@ -102,10 +112,63 @@ public class Home extends BaseFragment implements OnAdapterItemClick, View.OnCli
 
     }
 
+
     private  void setEmptyAdapter(){
         binding.rvBanners.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
         bannerAdapter = new BannerAdapter(mContext,banners,this);
         binding.rvBanners.setAdapter(bannerAdapter);
+
+        binding.viewPager.setPageMargin(30);
+        binding.viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float smallerScale= 0.7f;
+                float startOffset=0;
+                float absPosition = Math.abs(position - startOffset);
+
+                if (absPosition >= 1) {
+                    // page.setElevation(baseElevation);
+                    page.setScaleY(smallerScale);
+                } else {
+                    // This will be during transformation
+                    //page.setElevation(((1 - absPosition) * raisingElevation + baseElevation));
+                    page.setScaleY((smallerScale - 1) * absPosition + 1);
+                }
+            }
+        });
+        myViewPagerAdapter = new MyViewPagerAdapter(mContext,banners);
+        binding.viewPager.setAdapter(myViewPagerAdapter);
+
+        binding.tabLayout.setupWithViewPager(binding.viewPager,true);
+    }
+
+    private void setupAutoPager() {
+        final Handler handler = new Handler();
+
+        final Runnable update = new Runnable() {
+            public void run() {
+
+
+                binding.viewPager.setCurrentItem(currentPage, true);
+                if(currentPage == banners.size() - 1) {
+                    currentPage = 0;
+                }
+                else {
+                    ++currentPage ;
+                }
+                int j = 9;
+            }
+        };
+
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 2000, 2500);
     }
 
     private void setLiteners(){

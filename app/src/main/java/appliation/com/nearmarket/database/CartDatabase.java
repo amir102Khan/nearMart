@@ -37,11 +37,24 @@ public class CartDatabase implements Serializable {
 
     @ColumnInfo (name = "unit")
     private String unit;
+
+    @ColumnInfo (name = "isQuantityMoreThan1unit")
+    private boolean isQuantityMoreThan1Unit;
+
+
     /**
      * getter and setters
      * @return
      */
 
+
+    public boolean isQuantityMoreThan1Unit() {
+        return isQuantityMoreThan1Unit;
+    }
+
+    public void setQuantityMoreThan1Unit(boolean quantityMoreThan1Unit) {
+        isQuantityMoreThan1Unit = quantityMoreThan1Unit;
+    }
 
     public String getName() {
         return name;

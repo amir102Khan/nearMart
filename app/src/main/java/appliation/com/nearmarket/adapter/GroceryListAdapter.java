@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -51,6 +52,9 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
         holder.tvProductMinQty.setText("+"+products.get(position).getMinimumQty() + " " + products.get(position).getUnit());
         holder.tvCount.setText(countValue);
 
+        if (products.get(position).getDesc() != null){
+            holder.tvProductDesc.setText(products.get(position).getDesc());
+        }
         holder.tvCount.setText(""+products.get(position).getCount());
 
         holder.tvAdd.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +72,18 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
             }
         });
 
-        Picasso.with(context)
-                .load(products.get(position).getImage())
-                .error(R.drawable.logo)
-                .placeholder(R.drawable.logo)
-                .into(holder.imageProdcut);
+        try {
+
+            Picasso.with(context)
+                    .load(products.get(position).getImage())
+                    .error(R.drawable.logo)
+                    .placeholder(R.drawable.logo)
+                    .into(holder.imageProdcut);
+
+        }
+        catch (Exception e){
+            holder.imageProdcut.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+        }
 
 
     }
@@ -92,6 +103,7 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
         private TextView tvCount;
         private TextView tvSub;
         private TextView tvAdd;
+        private TextView tvProductDesc;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,6 +115,7 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
             tvCount = itemView.findViewById(R.id.tvCount);
             tvSub = itemView.findViewById(R.id.tvSub);
             tvAdd = itemView.findViewById(R.id.tvAdd);
+            tvProductDesc = itemView.findViewById(R.id.productDesc);
         }
     }
 

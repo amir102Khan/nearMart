@@ -35,15 +35,10 @@ public class GrocerListAdapter extends RecyclerView.Adapter<GrocerListAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        if (position == list.size() - 1){
-            holder.view.setVisibility(View.GONE);
-        }
-        else {
-            holder.view.setVisibility(View.VISIBLE);
-        }
+
 
         String index = String.valueOf(position +1);
-        holder.tvItem.setText(index + " " + list.get(position));
+        holder.tvItem.setText(index + " . " + list.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,11 +54,9 @@ public class GrocerListAdapter extends RecyclerView.Adapter<GrocerListAdapter.My
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvItem;
-        private View view;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItem = itemView.findViewById(R.id.tvListName);
-            view = itemView.findViewById(R.id.view);
         }
     }
 }

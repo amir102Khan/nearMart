@@ -13,6 +13,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +41,7 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        //setContentView(R.layout.activity_signup);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -129,9 +130,10 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         };
 
         ss.setSpan(clickableSpan, 25, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.cream)), 25,
+        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.black)), 25,
                 ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        ss.setSpan(new UnderlineSpan(),25,ss.length(),0);
         binding.tvAlreadyHaveAccount.setText(ss);
         binding.tvAlreadyHaveAccount.setMovementMethod(LinkMovementMethod.getInstance());
         binding.tvAlreadyHaveAccount.setHighlightColor(Color.TRANSPARENT);

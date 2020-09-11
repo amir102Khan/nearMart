@@ -5,9 +5,11 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whiteGrey"
     tools:context=".activities.AdditionalListItems">
 <include layout="@layout/layout_toolbar"
     android:id="@+id/toolbar"/>
+
 
 
     <androidx.recyclerview.widget.RecyclerView

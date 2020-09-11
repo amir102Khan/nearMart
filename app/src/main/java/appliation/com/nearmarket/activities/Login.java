@@ -13,6 +13,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -129,8 +130,9 @@ public class Login extends BaseActivity implements View.OnClickListener {
         };
 
         ss.setSpan(clickableSpan, 23, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.cream)), 23,
+        ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.black)), 23,
                 ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new UnderlineSpan(),23,ss.length(),0);
 
         binding.tvSignUp.setText(ss);
         binding.tvSignUp.setMovementMethod(LinkMovementMethod.getInstance());
